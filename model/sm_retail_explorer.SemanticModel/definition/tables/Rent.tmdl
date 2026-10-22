@@ -1,0 +1,130 @@
+table Rent
+
+	measure 'Base Rent' = SUM ( Rent[Base Rent EUR] )
+		formatString: #,##0
+		displayFolder: Rent
+
+	measure 'Turnover Rent' = SUM ( Rent[Turnover Top Up EUR] )
+		formatString: #,##0
+		displayFolder: Rent
+
+	measure 'Total Rent' = [Base Rent] + [Turnover Rent]
+		formatString: #,##0
+		displayFolder: Rent
+
+	measure 'Service Charge' = SUM ( Rent[Service Charge EUR] )
+		formatString: #,##0
+		displayFolder: Rent
+
+	measure 'Occupancy Cost' = [Total Rent] + [Service Charge]
+		formatString: #,##0
+		displayFolder: Rent
+
+	/// Occupancy cost ratio: (base rent + turnover rent + service charge) / sales.
+	measure OCR = DIVIDE ( [Occupancy Cost], [Sales] )
+		formatString: 0.0%
+		displayFolder: Rent
+
+	measure 'Occupied Area' = SUM ( Rent[Occupied Area m2] )
+		formatString: #,##0
+		displayFolder: Area
+
+	measure 'Leasable Area' = SUM ( Rent[Area m2] )
+		formatString: #,##0
+		displayFolder: Area
+
+	measure 'GLA m2' = DIVIDE ( [Leasable Area], [Months in Period] )
+		formatString: #,##0
+		displayFolder: Area
+
+	measure 'Vacant Area m2' = DIVIDE ( [Leasable Area] - [Occupied Area], [Months in Period] )
+		formatString: #,##0
+		displayFolder: Area
+
+	measure 'Occupancy %' = DIVIDE ( [Occupied Area], [Leasable Area] )
+		formatString: 0.0%
+		displayFolder: Area
+
+	measure 'ERV per m2' = DIVIDE ( SUM ( Rent[ERV EUR] ), [Leasable Area] )
+		formatString: #,##0.0
+		displayFolder: Rent
+
+	measure 'Base Rent per m2' = DIVIDE ( [Base Rent], [Occupied Area] )
+		formatString: #,##0.0
+		displayFolder: Rent
+
+	/// Base rent relative to market rent (ERV) on occupied area; negative means under-rented.
+	measure 'Rent vs ERV %' = DIVIDE ( [Base Rent], CALCULATE ( SUM ( Rent[ERV EUR] ), Rent[Occupied Area m2] > 0 ) ) - 1
+		formatString: +0.0%;-0.0%;0.0%
+		displayFolder: Rent
+
+	measure 'Vacancy Rent Potential' = SUM ( Rent[Vacant ERV EUR] )
+		formatString: #,##0
+		displayFolder: Rent
+
+	column 'Month Date Key'
+		dataType: int64
+		isHidden
+		summarizeBy: none
+		sourceColumn: month_date_key
+
+	column 'Unit Key'
+		dataType: int64
+		isHidden
+		summarizeBy: none
+		sourceColumn: unit_key
+
+	column 'Lease Key'
+		dataType: int64
+		isHidden
+		summarizeBy: none
+		sourceColumn: lease_key
+
+	column 'Area m2'
+		dataType: double
+		formatString: #,##0.0
+		summarizeBy: none
+		sourceColumn: area_m2
+
+	column 'Occupied Area m2'
+		dataType: double
+		formatString: #,##0.0
+		summarizeBy: none
+		sourceColumn: occupied_area_m2
+
+	column 'Base Rent EUR'
+		dataType: double
+		formatString: #,##0.0
+		summarizeBy: none
+		sourceColumn: base_rent_eur
+
+	column 'Turnover Top Up EUR'
+		dataType: double
+		formatString: #,##0.0
+		summarizeBy: none
+		sourceColumn: turnover_top_up_eur
+
+	column 'Service Charge EUR'
+		dataType: double
+		formatString: #,##0.0
+		summarizeBy: none
+		sourceColumn: service_charge_eur
+
+	column 'ERV EUR'
+		dataType: double
+		formatString: #,##0.0
+		summarizeBy: none
+		sourceColumn: erv_eur
+
+	column 'Vacant ERV EUR'
+		dataType: double
+		formatString: #,##0.0
+		summarizeBy: none
+		sourceColumn: vacant_erv_eur
+
+	partition Rent = entity
+		mode: directLake
+		source
+			entityName: fact_rent_monthly
+			schemaName: dbo
+			expressionSource: DatabaseQuery

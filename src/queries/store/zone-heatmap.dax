@@ -1,0 +1,10 @@
+EVALUATE
+SUMMARIZECOLUMNS(
+    'Date'[Day Of Week Number],
+    'Date'[Day Name],
+    Footfall[Hour],
+    TREATAS({ __ZONE__ }, Zone[Zone Key]),
+    FILTER(ALL('Date'[Date]), 'Date'[Date] >= __START__ && 'Date'[Date] <= __END__),
+    "AvgVisitors", DIVIDE([Visitors], DISTINCTCOUNT('Date'[Date]))
+)
+ORDER BY 'Date'[Day Of Week Number], Footfall[Hour]

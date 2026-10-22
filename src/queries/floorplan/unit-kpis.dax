@@ -1,0 +1,22 @@
+EVALUATE
+SUMMARIZECOLUMNS(
+    Unit[Unit Key],
+    FILTER(ALL('Date'[Date]), 'Date'[Date] >= __START__ && 'Date'[Date] <= __END__),
+    "Sales", [Sales],
+    "SalesPerM2", [Sales per m2],
+    "SalesYoY", [Sales YoY %],
+    "SalesIndex", [Sales Index vs Category],
+    "OCR", [OCR],
+    "Health", [Health Score],
+    "Tenant", [Active Tenant],
+    "LeaseYears", [Lease Years Remaining],
+    "LeaseExpiry", [Lease Expiry Date],
+    "IsVacant", [Is Vacant],
+    "ZoneVisitors", [Zone Visitors],
+    "SalesPerVisitor", [Sales per Passing Visitor],
+    "RentVsERV", [Rent vs ERV %],
+    "BaseRentPerM2", [Base Rent per m2],
+    "TotalRent", [Total Rent],
+    "VacancyPotential", [Vacancy Rent Potential]
+)
+ORDER BY Unit[Unit Key]

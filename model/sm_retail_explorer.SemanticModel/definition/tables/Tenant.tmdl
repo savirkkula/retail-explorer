@@ -1,0 +1,34 @@
+table Tenant
+
+	column 'Tenant Key'
+		dataType: int64
+		isHidden
+		summarizeBy: none
+		sourceColumn: tenant_key
+
+	column 'Tenant Name'
+		dataType: string
+		summarizeBy: none
+		sourceColumn: tenant_name
+
+	column Category
+		dataType: string
+		summarizeBy: none
+		sourceColumn: category
+
+	column Origin
+		dataType: string
+		summarizeBy: none
+		sourceColumn: origin
+
+	column 'Is Real Brand'
+		dataType: boolean
+		summarizeBy: none
+		sourceColumn: is_real_brand
+
+	partition Tenant = entity
+		mode: directLake
+		source
+			entityName: dim_tenant
+			schemaName: dbo
+			expressionSource: DatabaseQuery

@@ -1,0 +1,59 @@
+relationship Floor_PropertyKey_to_Property
+	fromColumn: Floor.'Property Key'
+	toColumn: Property.'Property Key'
+
+relationship Zone_FloorKey_to_Floor
+	fromColumn: Zone.'Floor Key'
+	toColumn: Floor.'Floor Key'
+
+relationship Unit_FloorKey_to_Floor
+	fromColumn: Unit.'Floor Key'
+	toColumn: Floor.'Floor Key'
+
+relationship FloorShape_FloorKey_to_Floor
+	fromColumn: 'Floor Shape'.'Floor Key'
+	toColumn: Floor.'Floor Key'
+
+relationship Lease_UnitKey_to_Unit
+	fromColumn: Lease.'Unit Key'
+	toColumn: Unit.'Unit Key'
+
+relationship Lease_TenantKey_to_Tenant
+	fromColumn: Lease.'Tenant Key'
+	toColumn: Tenant.'Tenant Key'
+
+relationship Sales_DateKey_to_Date
+	fromColumn: Sales.'Date Key'
+	toColumn: Date.'Date Key'
+
+relationship Sales_UnitKey_to_Unit
+	fromColumn: Sales.'Unit Key'
+	toColumn: Unit.'Unit Key'
+
+relationship Sales_TenantKey_to_Tenant
+	fromColumn: Sales.'Tenant Key'
+	toColumn: Tenant.'Tenant Key'
+
+relationship Footfall_DateKey_to_Date
+	fromColumn: Footfall.'Date Key'
+	toColumn: Date.'Date Key'
+
+relationship Footfall_ZoneKey_to_Zone
+	fromColumn: Footfall.'Zone Key'
+	toColumn: Zone.'Zone Key'
+
+relationship Rent_MonthDateKey_to_Date
+	fromColumn: Rent.'Month Date Key'
+	toColumn: Date.'Date Key'
+
+relationship Rent_UnitKey_to_Unit
+	fromColumn: Rent.'Unit Key'
+	toColumn: Unit.'Unit Key'
+
+relationship Energy_MonthDateKey_to_Date
+	fromColumn: Energy.'Month Date Key'
+	toColumn: Date.'Date Key'
+
+relationship Energy_FloorKey_to_Floor
+	fromColumn: Energy.'Floor Key'
+	toColumn: Floor.'Floor Key'

@@ -1,0 +1,81 @@
+table Unit
+
+	column 'Unit Key'
+		dataType: int64
+		isHidden
+		summarizeBy: none
+		sourceColumn: unit_key
+
+	column 'Property Key'
+		dataType: int64
+		isHidden
+		summarizeBy: none
+		sourceColumn: property_key
+
+	column 'Floor Key'
+		dataType: int64
+		isHidden
+		summarizeBy: none
+		sourceColumn: floor_key
+
+	column 'Zone Key'
+		dataType: int64
+		isHidden
+		summarizeBy: none
+		sourceColumn: zone_key
+
+	column 'Unit Code'
+		dataType: string
+		summarizeBy: none
+		sourceColumn: unit_code
+
+	column 'Area m2'
+		dataType: double
+		formatString: #,##0.0
+		summarizeBy: none
+		sourceColumn: area_m2
+
+	column Category
+		dataType: string
+		summarizeBy: none
+		sourceColumn: category
+
+	column 'Unit Type'
+		dataType: string
+		summarizeBy: none
+		sourceColumn: unit_type
+
+	column 'Is Anchor'
+		dataType: boolean
+		summarizeBy: none
+		sourceColumn: is_anchor
+
+	column 'ERV Per m2 Month'
+		dataType: double
+		formatString: #,##0.0
+		summarizeBy: none
+		sourceColumn: erv_per_m2_month
+
+	column 'Centroid X'
+		dataType: double
+		formatString: #,##0.0
+		summarizeBy: none
+		sourceColumn: centroid_x
+
+	column 'Centroid Y'
+		dataType: double
+		formatString: #,##0.0
+		summarizeBy: none
+		sourceColumn: centroid_y
+
+	column 'Polygon Points'
+		dataType: string
+		summarizeBy: none
+		sourceColumn: polygon_points
+
+	partition Unit = entity
+		mode: directLake
+		source
+			entityName: dim_unit
+			schemaName: dbo
+			expressionSource: DatabaseQuery

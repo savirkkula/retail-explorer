@@ -1,0 +1,46 @@
+table Floor
+
+	column 'Floor Key'
+		dataType: int64
+		isHidden
+		summarizeBy: none
+		sourceColumn: floor_key
+
+	column 'Property Key'
+		dataType: int64
+		isHidden
+		summarizeBy: none
+		sourceColumn: property_key
+
+	column 'Level Number'
+		dataType: int64
+		summarizeBy: none
+		sourceColumn: level_number
+
+	column 'Level Label'
+		dataType: string
+		summarizeBy: none
+		sourceColumn: level_label
+
+	column 'Floor Type'
+		dataType: string
+		summarizeBy: none
+		sourceColumn: floor_type
+
+	column 'Sort Order'
+		dataType: int64
+		summarizeBy: none
+		sourceColumn: sort_order
+
+	column 'Gla m2'
+		dataType: double
+		formatString: #,##0.0
+		summarizeBy: none
+		sourceColumn: gla_m2
+
+	partition Floor = entity
+		mode: directLake
+		source
+			entityName: dim_floor
+			schemaName: dbo
+			expressionSource: DatabaseQuery

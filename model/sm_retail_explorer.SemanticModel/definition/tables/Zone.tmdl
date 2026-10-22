@@ -1,0 +1,41 @@
+table Zone
+
+	column 'Zone Key'
+		dataType: int64
+		isHidden
+		summarizeBy: none
+		sourceColumn: zone_key
+
+	column 'Property Key'
+		dataType: int64
+		isHidden
+		summarizeBy: none
+		sourceColumn: property_key
+
+	column 'Floor Key'
+		dataType: int64
+		isHidden
+		summarizeBy: none
+		sourceColumn: floor_key
+
+	column 'Zone Name'
+		dataType: string
+		summarizeBy: none
+		sourceColumn: zone_name
+
+	column 'Center X'
+		dataType: int64
+		summarizeBy: none
+		sourceColumn: center_x
+
+	column 'Center Y'
+		dataType: int64
+		summarizeBy: none
+		sourceColumn: center_y
+
+	partition Zone = entity
+		mode: directLake
+		source
+			entityName: dim_zone
+			schemaName: dbo
+			expressionSource: DatabaseQuery

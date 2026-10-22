@@ -1,0 +1,16 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v6.json",
+  "description": "Sales by category for one center",
+  "encoding": {
+    "y": { "field": "Category", "type": "nominal", "sort": "-x", "title": null },
+    "x": { "field": "Sales", "type": "quantitative", "title": null },
+    "color": { "field": "Category", "type": "nominal", "legend": null }
+  },
+  "layer": [
+    { "mark": "bar" },
+    {
+      "mark": { "type": "text", "style": "labelHorizontal" },
+      "encoding": { "text": { "field": "Sales", "type": "quantitative" } }
+    }
+  ]
+}

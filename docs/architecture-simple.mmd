@@ -1,0 +1,44 @@
+%%{init: {"themeVariables": {"edgeLabelBackground": "#ffffff", "fontSize": "16px"}}}%%
+flowchart TB
+    subgraph login["Login"]
+        direction LR
+        user(["User"]) -->|"1. sign in"| auth["Fabric sign-in<br/>Rayfin Auth"]
+    end
+    login --> app["<b>Retail Explorer</b><br/>3D map, KPIs, actions"]
+
+    subgraph report["Report data: read only"]
+        direction TB
+        sm["Semantic model<br/>Direct Lake"]
+        lh[("Lakehouse<br/>Delta tables")]
+        sm ---|"3. reads Delta tables"| lh
+    end
+
+    subgraph actiondata["Action data: read and write"]
+        sql[("SQL database<br/>actions, comments")]
+    end
+
+    app -->|"2. DAX queries"| report
+    app <-->|"4. read, create, update"| actiondata
+
+    classDef person fill:#f1f5f9,stroke:#64748b,color:#0f172a,stroke-width:2px
+    classDef login fill:#ede9fe,stroke:#7c3aed,color:#3b0764,stroke-width:2px
+    classDef app fill:#1e3a5f,stroke:#0c2340,color:#ffffff,stroke-width:3px
+    classDef model fill:#ccfbf1,stroke:#0f766e,color:#134e4a,stroke-width:2px
+    classDef lake fill:#dcfce7,stroke:#15803d,color:#14532d,stroke-width:2px
+    classDef sqlnode fill:#ffedd5,stroke:#c2410c,color:#7c2d12,stroke-width:2px
+
+    class user person
+    class auth login
+    class app app
+    class sm model
+    class lh lake
+    class sql sqlnode
+
+    style login fill:#faf5ff,stroke:#c4b5fd,stroke-dasharray:5 5,color:#4c1d95
+    style report fill:#f0fdfa,stroke:#5eead4,color:#115e59
+    style actiondata fill:#fff7ed,stroke:#fdba74,color:#9a3412
+
+    linkStyle 0,1 stroke:#7c3aed,stroke-width:2px,color:#4c1d95
+    linkStyle 2 stroke:#15803d,stroke-width:2px
+    linkStyle 3 stroke:#0f766e,stroke-width:2px,color:#115e59
+    linkStyle 4 stroke:#c2410c,stroke-width:3px,color:#9a3412

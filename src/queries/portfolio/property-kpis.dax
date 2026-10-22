@@ -1,0 +1,17 @@
+EVALUATE
+SUMMARIZECOLUMNS(
+    'Property'[Property Key],
+    'Property'[Property Name],
+    FILTER(ALL('Date'[Date]), 'Date'[Date] >= __START__ && 'Date'[Date] <= __END__),
+    "Sales", [Sales],
+    "SalesYoY", [Sales YoY %],
+    "SalesPerM2", [Sales per m2],
+    "OCR", [OCR],
+    "Occupancy", [Occupancy %],
+    "WAULT", [WAULT],
+    "Visitors", [Visitors],
+    "VisitorsYoY", [Visitors YoY %],
+    "GLA", [GLA m2],
+    "VacancyPotential", [Vacancy Rent Potential]
+)
+ORDER BY 'Property'[Property Key]

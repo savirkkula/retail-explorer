@@ -1,0 +1,10 @@
+EVALUATE
+SUMMARIZECOLUMNS(
+    'Date'[Month Start],
+    TREATAS({ __UNIT__ }, Unit[Unit Key]),
+    FILTER(ALL('Date'[Date]), 'Date'[Date] >= __START__ && 'Date'[Date] <= __END__),
+    "BaseRent", [Base Rent],
+    "TurnoverRent", [Turnover Rent],
+    "ServiceCharge", [Service Charge]
+)
+ORDER BY 'Date'[Month Start]

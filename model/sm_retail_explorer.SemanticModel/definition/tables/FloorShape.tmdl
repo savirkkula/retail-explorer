@@ -1,0 +1,35 @@
+table 'Floor Shape'
+
+	column 'Shape Key'
+		dataType: int64
+		isHidden
+		summarizeBy: none
+		sourceColumn: shape_key
+
+	column 'Floor Key'
+		dataType: int64
+		isHidden
+		summarizeBy: none
+		sourceColumn: floor_key
+
+	column 'Shape Type'
+		dataType: string
+		summarizeBy: none
+		sourceColumn: shape_type
+
+	column 'Shape Name'
+		dataType: string
+		summarizeBy: none
+		sourceColumn: shape_name
+
+	column Points
+		dataType: string
+		summarizeBy: none
+		sourceColumn: points
+
+	partition 'Floor Shape' = entity
+		mode: directLake
+		source
+			entityName: dim_floor_shape
+			schemaName: dbo
+			expressionSource: DatabaseQuery

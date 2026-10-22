@@ -1,0 +1,38 @@
+table Energy
+
+	measure 'Energy kWh' = SUM ( Energy[Electricity kWh] ) + SUM ( Energy[Heating kWh] )
+		formatString: #,##0
+		displayFolder: Energy
+
+	measure 'Energy Intensity' = DIVIDE ( [Energy kWh], [Leasable Area] )
+		formatString: 0.0
+		displayFolder: Energy
+
+	column 'Month Date Key'
+		dataType: int64
+		isHidden
+		summarizeBy: none
+		sourceColumn: month_date_key
+
+	column 'Floor Key'
+		dataType: int64
+		isHidden
+		summarizeBy: none
+		sourceColumn: floor_key
+
+	column 'Electricity kWh'
+		dataType: int64
+		summarizeBy: none
+		sourceColumn: electricity_kwh
+
+	column 'Heating kWh'
+		dataType: int64
+		summarizeBy: none
+		sourceColumn: heating_kwh
+
+	partition Energy = entity
+		mode: directLake
+		source
+			entityName: fact_energy_monthly
+			schemaName: dbo
+			expressionSource: DatabaseQuery

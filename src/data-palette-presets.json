@@ -1,0 +1,28 @@
+{
+  "palettes": [
+    {
+      "id": "harbour",
+      "name": "Harbour",
+      "colors": {
+        "light": ["#0f6a9e", "#d9481f", "#2a7f62", "#a86f00", "#6a4c93", "#4d7c0f", "#b83280", "#7c5a3a", "#4a5aa8", "#a23b3b"],
+        "dark": ["#7cc4ea", "#ff9a78", "#5fe0b5", "#f2c35c", "#c4a6e6", "#b7d65a", "#f58fbd", "#d8b48a", "#aab0ef", "#f08e8e"]
+      }
+    },
+    {
+      "id": "birch",
+      "name": "Birch",
+      "colors": {
+        "light": ["#3b5b3f", "#c2571a", "#2f6f8f", "#9a7b00", "#7a3e65", "#547a2a", "#a63d40", "#6d6a2b", "#3f5f96", "#8a5a44"],
+        "dark": ["#8fc79a", "#ff9b5e", "#7cc1e0", "#e6c64d", "#d49ac0", "#aad36a", "#f08a8d", "#cfcc6a", "#92b2ea", "#d9a68a"]
+      }
+    },
+    {
+      "id": "aurora",
+      "name": "Aurora",
+      "colors": {
+        "light": ["#006d77", "#c1121f", "#5a4fcf", "#b56a00", "#8338ec", "#2d6a4f", "#d00070", "#7f5539", "#1d4e89", "#9d4e00"],
+        "dark": ["#52d1dc", "#ff7b84", "#a99cff", "#ffbf5e", "#c3a0ff", "#6fdc9f", "#ff7ac0", "#d9b08c", "#7fb0f0", "#ffa65c"]
+      }
+    }
+  ]
+}

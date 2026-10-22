@@ -1,0 +1,14 @@
+EVALUATE
+SUMMARIZECOLUMNS(
+    Floor[Floor Key],
+    Floor[Property Key],
+    Floor[Level Label],
+    Floor[Sort Order],
+    FILTER(ALL('Date'[Date]), 'Date'[Date] >= __START__ && 'Date'[Date] <= __END__),
+    "Sales", [Sales],
+    "SalesPerM2", [Sales per m2],
+    "OCR", [OCR],
+    "Occupancy", [Occupancy %],
+    "EnergyIntensity", [Energy Intensity]
+)
+ORDER BY Floor[Property Key], Floor[Sort Order]

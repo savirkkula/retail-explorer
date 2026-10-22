@@ -1,0 +1,8 @@
+EVALUATE
+SUMMARIZECOLUMNS(
+    'Date'[Month Start],
+    'Property'[Property Name],
+    FILTER(ALL('Date'[Date]), 'Date'[Date] >= __START__ && 'Date'[Date] <= __END__),
+    "Sales", [Sales]
+)
+ORDER BY 'Date'[Month Start], 'Property'[Property Name]

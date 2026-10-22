@@ -1,0 +1,16 @@
+EVALUATE
+CALCULATETABLE(
+    ROW(
+        "Sales", [Sales],
+        "SalesYoY", [Sales YoY %],
+        "SalesPerM2", [Sales per m2],
+        "OCR", [OCR],
+        "Occupancy", [Occupancy %],
+        "WAULT", [WAULT],
+        "Visitors", [Visitors],
+        "VisitorsYoY", [Visitors YoY %],
+        "GLA", [GLA m2],
+        "VacancyPotential", [Vacancy Rent Potential]
+    ),
+    FILTER(ALL('Date'[Date]), 'Date'[Date] >= __START__ && 'Date'[Date] <= __END__)
+)

@@ -1,0 +1,7 @@
+activeProfile: default
+profiles:
+  default:
+    semanticModels:
+      retailExplorer:
+        workspaceId: b0b2b41a-8a40-4537-ae6f-543bc4022b2b
+        itemId: 2c27206d-0145-4f8b-97d2-103567e58684

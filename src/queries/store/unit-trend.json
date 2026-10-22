@@ -1,0 +1,14 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v6.json",
+  "description": "Store sales density versus category benchmark",
+  "transform": [
+    { "fold": ["UnitSalesPerM2", "BenchmarkSalesPerM2"], "as": ["Series", "Value"] },
+    { "calculate": "datum.Series === 'UnitSalesPerM2' ? 'This store' : 'Category avg'", "as": "SeriesLabel" }
+  ],
+  "mark": { "type": "line", "strokeWidth": 2.5 },
+  "encoding": {
+    "x": { "field": "MonthStart", "type": "temporal", "title": null },
+    "y": { "field": "Value", "type": "quantitative", "title": null },
+    "color": { "field": "SeriesLabel", "type": "nominal", "legend": { "orient": "bottom", "title": null } }
+  }
+}

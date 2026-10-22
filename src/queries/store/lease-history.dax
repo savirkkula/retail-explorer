@@ -1,0 +1,11 @@
+EVALUATE
+SELECTCOLUMNS(
+    FILTER(Lease, Lease[Unit Key] = __UNIT__),
+    "Tenant", RELATED(Tenant[Tenant Name]),
+    "StartDate", Lease[Start Date],
+    "EndDate", Lease[End Date],
+    "RentPerM2", Lease[Base Rent Per m2 Month],
+    "TurnoverPct", Lease[Turnover Rent Pct],
+    "AnnualRent", Lease[Annual Base Rent EUR]
+)
+ORDER BY [StartDate] DESC

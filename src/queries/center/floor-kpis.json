@@ -1,0 +1,15 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v6.json",
+  "description": "Sales per m2 by floor",
+  "encoding": {
+    "y": { "field": "Level", "type": "nominal", "sort": { "field": "SortOrder", "order": "descending" }, "title": "Level" },
+    "x": { "field": "SalesPerM2", "type": "quantitative", "title": null }
+  },
+  "layer": [
+    { "mark": "bar" },
+    {
+      "mark": { "type": "text", "style": "labelHorizontal" },
+      "encoding": { "text": { "field": "SalesPerM2", "type": "quantitative" } }
+    }
+  ]
+}

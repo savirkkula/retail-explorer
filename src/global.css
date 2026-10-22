@@ -1,0 +1,296 @@
+@layer fabric-visual-tokens, theme, base, fabric-visuals, components, utilities;
+
+@import "tailwindcss";
+
+@custom-variant dark (&:is(.dark *));
+
+/* These tokens are consumed directly as CSS variables, so emit them
+   even when no Tailwind utility references them. */
+@theme static {
+  --color-brand:            #0f3d5e;  /* bar/area fills, button-like brand surfaces */
+  --color-brand-foreground: #0f6a9e;  /* line/point marks, branded text & emphasis */
+  --color-hover:            #ece6d8;  /* row/cell hover surface in DataGrid + visuals */
+  --color-signal:           #d9481f;  /* single sharp accent: selection, alerts, focus on data */
+  --color-signal-foreground: #ffffff;
+
+  /* Categorical data palette (light) */
+  --color-data-1:  #1f5f8b;
+  --color-data-2:  #e4572e;
+  --color-data-3:  #1f8a7c;
+  --color-data-4:  #b87c00;
+  --color-data-5:  #7b4b94;
+  --color-data-6:  #5f7f1c;
+  --color-data-7:  #c2417a;
+  --color-data-8:  #8b5e3c;
+  --color-data-9:  #5b5f97;
+  --color-data-10: #b34a4a;
+
+  /* Heat ramps: sequential low->high, diverging bad->good */
+  --ramp-seq-1: #dbe6ea;
+  --ramp-seq-2: #9fc4d4;
+  --ramp-seq-3: #4f9ab8;
+  --ramp-seq-4: #1d6593;
+  --ramp-seq-5: #0c3556;
+  --ramp-div-1: #c8412b;
+  --ramp-div-2: #ee9a6a;
+  --ramp-div-3: #f0dfa0;
+  --ramp-div-4: #86c0b3;
+  --ramp-div-5: #1b7d6e;
+
+  /* 3D scene surfaces */
+  --color-vacant:    #b8b1a0;
+  --color-slab:      #e9e4d7;
+  --color-slab-edge: #c9c1ae;
+  --color-scene-glow: rgba(15, 106, 158, 0.12);
+  --font-page-title: var(--font-heading);
+  --font-page-subtitle: var(--font-base);
+  --font-visual-title: var(--font-heading);
+  --font-visual-subtitle: var(--font-base);
+  --font-data-label: var(--font-base);
+  --text-page-title: var(--text-600);
+  --text-page-subtitle: var(--text-300);
+  --text-visual-title: var(--text-400);
+  --text-visual-subtitle: var(--text-300);
+  --text-data-label: 11px;
+}
+
+@theme {
+  /* Color tokens — light theme
+     Usage: bg-*, text-*, border-* (e.g. bg-primary text-primary-foreground)
+     Each token has a -foreground pair for text on that surface. */
+  --color-background: #f3f0e8;                                       /* page background */
+  --color-foreground: #14212e;                                       /* default text */
+
+  --color-card: #faf8f3;                                             /* card surfaces */
+  --color-card-foreground: #14212e;
+
+  --color-popover: #fbfaf6;                                          /* popover/dropdown surfaces */
+  --color-popover-foreground: #14212e;
+
+  --color-primary: #0f3d5e;                                          /* primary actions & buttons */
+  --color-primary-foreground: #ffffff;
+
+  --color-secondary: #ebe7dc;                                        /* secondary actions */
+  --color-secondary-foreground: #14212e;
+
+  --color-muted: #e7e2d6;                                            /* subtle backgrounds */
+  --color-muted-foreground: #566371;                                 /* subdued text */
+
+  --color-accent: #efe6d6;                                           /* accent highlights */
+  --color-accent-foreground: #14212e;
+
+  --color-destructive: #b3261e;                                      /* errors & destructive actions */
+  --color-destructive-foreground: #ffffff;
+
+  --color-success: #1f7a4d;                                          /* success surfaces */
+  --color-success-foreground: #ffffff;
+
+  --color-border: #d8d1c1;                                           /* default border */
+  --color-input: #d8d1c1;                                            /* input field borders */
+  --color-ring: #0f3d5e;                                             /* focus rings */
+
+  /* Elevation shadows — Fluent UI v9 ramp, keyed by resting elevation in px.
+     Usage: shadow-* (e.g. shadow-8, shadow-64) */
+  --shadow-2:  0 0 2px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.14);
+  --shadow-4:  0 0 2px rgba(0, 0, 0, 0.12), 0 2px 4px rgba(0, 0, 0, 0.14);
+  --shadow-8:  0 0 2px rgba(0, 0, 0, 0.12), 0 4px 8px rgba(0, 0, 0, 0.14);
+  --shadow-16: 0 0 2px rgba(0, 0, 0, 0.12), 0 8px 16px rgba(0, 0, 0, 0.14);
+  --shadow-28: 0 0 8px rgba(0, 0, 0, 0.12), 0 14px 28px rgba(0, 0, 0, 0.14);
+  --shadow-64: 0 0 8px rgba(0, 0, 0, 0.12), 0 32px 64px rgba(0, 0, 0, 0.14);
+
+  --radius-none: 0;
+  --radius-sm: calc(2px * var(--radius-scale, 1));
+  --radius-md: calc(3px * var(--radius-scale, 1));
+  --radius-lg: calc(4px * var(--radius-scale, 1));
+  --radius-xl: calc(6px * var(--radius-scale, 1));
+  --radius-2xl: calc(10px * var(--radius-scale, 1));
+  --radius-3xl: calc(16px * var(--radius-scale, 1));
+  --radius-4xl: calc(24px * var(--radius-scale, 1));
+  --radius-5xl: calc(32px * var(--radius-scale, 1));
+  --radius-6xl: calc(40px * var(--radius-scale, 1));
+  --radius-full: calc(9999px * var(--radius-scale, 1));
+  --radius: calc(4px * var(--radius-scale, 1));
+
+  /* Spacing base unit
+     Usage: p-*, m-*, gap-* (e.g. p-4 gap-3) */
+  --spacing: 4px;
+
+  /* Font Sizes — 100-based scale 
+     Usage: text-* (e.g. text-300, text-hero-900) */
+  --text-100: 10px;
+  --text-200: 12px;
+  --text-300: 14px;
+  --text-400: 16px;
+  --text-500: 20px;
+  --text-600: 24px;
+  --text-hero-700: 28px;
+  --text-hero-800: 32px;
+  --text-hero-900: 40px;
+  --text-hero-1000: 68px;
+
+  /* Line Heights — paired with font sizes
+     Usage: leading-* (e.g. leading-300) */
+  --leading-100: 14px;
+  --leading-200: 16px;
+  --leading-300: 20px;
+  --leading-400: 22px;
+  --leading-500: 28px;
+  --leading-600: 32px;
+  --leading-hero-700: 36px;
+  --leading-hero-800: 40px;
+  --leading-hero-900: 52px;
+  --leading-hero-1000: 92px;
+
+  /* Font Weights
+     Usage: font-* (e.g. font-semibold) */
+  --font-weight-regular: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+
+  /* Font Families
+     Usage: font-* (e.g. font-heading, font-base) */
+  --font-heading: 'Instrument Serif', 'Iowan Old Style', Georgia,    /* headings, titles, display text */
+    serif;
+  --font-base: 'Instrument Sans', 'Segoe UI', -apple-system,         /* body text, labels, UI controls */
+    BlinkMacSystemFont, Roboto, 'Helvetica Neue', sans-serif;
+  --font-monospace: Consolas, 'Courier New', Courier, monospace;     /* code, pre-formatted text */
+  --font-numeric: 'Instrument Sans', 'Segoe UI',                    /* KPI values, numeric displays */
+    -apple-system, BlinkMacSystemFont, Roboto, 'Helvetica Neue', sans-serif;
+
+  /* Icon Sizes — 100-based scale
+     Usage: icon-size-* custom utility (e.g. icon-size-200) */
+  --icon-size-100: 12px;
+  --icon-size-200: 16px;
+  --icon-size-300: 20px;
+  --icon-size-400: 24px;
+  --icon-size-500: 28px;
+  --icon-size-600: 32px;
+  --icon-size-700: 48px;
+}
+
+@utility gap-grid {
+  gap: var(--grid-gap, calc(var(--spacing) * 4));
+}
+
+@utility icon-size-* {
+  width: --value(--icon-size-*);
+  height: --value(--icon-size-*);
+}
+
+@layer base {
+  .dark {
+    /* Color tokens — dark theme */
+    --color-background: #0b1824;
+    --color-foreground: #e8eef3;
+
+    --color-card: #10202f;
+    --color-card-foreground: #e8eef3;
+
+    --color-popover: #12263a;
+    --color-popover-foreground: #e8eef3;
+
+    --color-primary: #2b7fb0;
+    --color-primary-foreground: #ffffff;
+
+    --color-secondary: #0e1c2a;
+    --color-secondary-foreground: #e8eef3;
+
+    --color-muted: #0a1520;
+    --color-muted-foreground: #9fb0bf;
+
+    --color-accent: #1a3248;
+    --color-accent-foreground: #e8eef3;
+
+    --color-destructive: #f08a82;
+    --color-destructive-foreground: #1a0a09;
+
+    --color-success: #5bd08f;
+    --color-success-foreground: #04170d;
+
+    --color-border: #24415a;
+    --color-input: #24415a;
+    --color-ring: #5ec2ea;
+
+    --color-brand:            #2b7fb0;
+    --color-brand-foreground: #6cc6ec;
+    --color-hover:            #1a3248;
+    --color-signal:           #ff7a52;
+    --color-signal-foreground: #1a0a04;
+
+    --color-data-1:  #6bb3e0;
+    --color-data-2:  #ff8a65;
+    --color-data-3:  #4fd1c1;
+    --color-data-4:  #f4c04e;
+    --color-data-5:  #b794d6;
+    --color-data-6:  #a6c34a;
+    --color-data-7:  #f27fb0;
+    --color-data-8:  #c9a27a;
+    --color-data-9:  #9aa0e0;
+    --color-data-10: #e57b7b;
+
+    --ramp-seq-1: #17324a;
+    --ramp-seq-2: #24607f;
+    --ramp-seq-3: #3a9bb5;
+    --ramp-seq-4: #86d4d6;
+    --ramp-seq-5: #e6f8ee;
+    --ramp-div-1: #ff6a4a;
+    --ramp-div-2: #c97a4a;
+    --ramp-div-3: #a8964f;
+    --ramp-div-4: #3c8f82;
+    --ramp-div-5: #5fe3c9;
+
+    --color-vacant:    #3a4a59;
+    --color-slab:      #14293b;
+    --color-slab-edge: #2b4961;
+    --color-scene-glow: rgba(94, 194, 234, 0.14);
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-family: var(--font-base);
+  }
+
+  select,
+  input,
+  textarea,
+  button {
+    font-family: inherit;
+  }
+
+  .tabular {
+    font-family: var(--font-numeric);
+    font-variant-numeric: tabular-nums;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+/* Blueprint-style stage behind the 3D scene: soft glow plus a faint plan grid. */
+.scene-backdrop {
+  background-color: var(--color-background);
+  background-image:
+    radial-gradient(ellipse at 50% 38%, var(--color-scene-glow), transparent 62%),
+    linear-gradient(to right, color-mix(in srgb, var(--color-border) 45%, transparent) 1px, transparent 1px),
+    linear-gradient(to bottom, color-mix(in srgb, var(--color-border) 45%, transparent) 1px, transparent 1px);
+  background-size: auto, 48px 48px, 48px 48px;
+}

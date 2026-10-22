@@ -1,0 +1,75 @@
+%%{init: {"themeVariables": {"edgeLabelBackground": "#ffffff", "fontSize": "16px"}}}%%
+flowchart TB
+    subgraph browser["Browser: Fabric portal iframe"]
+        subgraph app["React app"]
+            direction LR
+            state["MallStateProvider<br/>selection, lens, period"]
+            mdata["MallDataProvider<br/>DAX queries"]
+            adata["ActionsProvider<br/>actions, comments"]
+        end
+        ui["3D scene and side panels<br/>KPIs, flags, action queue, Actions lens"]
+        state --> ui
+        mdata --> ui
+        adata --> ui
+    end
+
+    proxy["Fabric host proxy<br/>postMessage, Arrow"]
+
+    subgraph item["Rayfin app item da_retail_explorer"]
+        direction LR
+        host["Static hosting"]
+        auth["Auth<br/>Fabric SSO"]
+        api["Data API<br/>GraphQL"]
+    end
+
+    subgraph store["Workspace ws_data_app_demo"]
+        direction LR
+        sm["Semantic model<br/>sm_retail_explorer<br/>Direct Lake"]
+        lh[("Lakehouse<br/>Delta tables")]
+        sql[("SQL database<br/>StoreAction, ActionComment")]
+    end
+
+    subgraph prep["Offline data preparation"]
+        direction LR
+        gen["data-gen<br/>generate.py, build_model.py"]
+        pq[("Parquet files")]
+    end
+
+    mdata -->|"DAX"| proxy
+    proxy -->|"executeQueries"| sm
+    lh --> sm
+    adata -->|"RayfinClient: read, create, update"| api
+    api --> sql
+    browser -->|"sign in"| auth
+    host -.->|"serves the app"| browser
+    gen --> pq
+    pq -->|"upload, Load Table"| lh
+
+    classDef react fill:#dbeafe,stroke:#1d4ed8,color:#1e3a8a,stroke-width:2px
+    classDef shell fill:#1e3a5f,stroke:#0c2340,color:#ffffff,stroke-width:3px
+    classDef fabric fill:#ccfbf1,stroke:#0f766e,color:#134e4a,stroke-width:2px
+    classDef rayfin fill:#ede9fe,stroke:#7c3aed,color:#3b0764,stroke-width:2px
+    classDef lake fill:#dcfce7,stroke:#15803d,color:#14532d,stroke-width:2px
+    classDef sqlnode fill:#ffedd5,stroke:#c2410c,color:#7c2d12,stroke-width:2px
+    classDef tool fill:#f1f5f9,stroke:#64748b,color:#0f172a,stroke-width:2px
+
+    class state,mdata,adata react
+    class ui shell
+    class proxy,sm fabric
+    class host,auth,api rayfin
+    class lh,pq lake
+    class sql sqlnode
+    class gen tool
+
+    style browser fill:#eff6ff,stroke:#93c5fd,color:#1e40af
+    style app fill:#f8fafc,stroke:#93c5fd,stroke-dasharray:5 5,color:#1e40af
+    style item fill:#faf5ff,stroke:#c4b5fd,color:#4c1d95
+    style store fill:#f0fdfa,stroke:#5eead4,color:#115e59
+    style prep fill:#f8fafc,stroke:#cbd5e1,color:#334155
+
+    linkStyle 0,1,2 stroke:#1d4ed8,stroke-width:2px
+    linkStyle 3,4 stroke:#0f766e,stroke-width:2px,color:#115e59
+    linkStyle 5 stroke:#15803d,stroke-width:2px
+    linkStyle 6,7 stroke:#c2410c,stroke-width:3px,color:#9a3412
+    linkStyle 8,9 stroke:#7c3aed,stroke-width:2px,color:#4c1d95
+    linkStyle 10,11 stroke:#15803d,stroke-width:2px,color:#14532d

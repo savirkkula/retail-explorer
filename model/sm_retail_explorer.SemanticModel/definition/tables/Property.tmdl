@@ -1,0 +1,70 @@
+table Property
+
+	column 'Property Key'
+		dataType: int64
+		isHidden
+		summarizeBy: none
+		sourceColumn: property_key
+
+	column 'Property Code'
+		dataType: string
+		summarizeBy: none
+		sourceColumn: property_code
+
+	column 'Property Name'
+		dataType: string
+		summarizeBy: none
+		sourceColumn: property_name
+
+	column City
+		dataType: string
+		summarizeBy: none
+		sourceColumn: city
+
+	column District
+		dataType: string
+		summarizeBy: none
+		sourceColumn: district
+
+	column 'Floors Total'
+		dataType: int64
+		summarizeBy: none
+		sourceColumn: floors_total
+
+	column 'Retail Floors'
+		dataType: int64
+		summarizeBy: none
+		sourceColumn: retail_floors
+
+	column 'Gla m2'
+		dataType: double
+		formatString: #,##0.0
+		summarizeBy: none
+		sourceColumn: gla_m2
+
+	column 'Year Built'
+		dataType: int64
+		summarizeBy: none
+		sourceColumn: year_built
+
+	column 'Layout Kind'
+		dataType: string
+		summarizeBy: none
+		sourceColumn: layout_kind
+
+	column 'Canvas Width'
+		dataType: int64
+		summarizeBy: none
+		sourceColumn: canvas_width
+
+	column 'Canvas Height'
+		dataType: int64
+		summarizeBy: none
+		sourceColumn: canvas_height
+
+	partition Property = entity
+		mode: directLake
+		source
+			entityName: dim_property
+			schemaName: dbo
+			expressionSource: DatabaseQuery

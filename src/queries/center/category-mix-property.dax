@@ -1,0 +1,9 @@
+EVALUATE
+SUMMARIZECOLUMNS(
+    Unit[Category],
+    TREATAS({ __PROPERTY__ }, 'Property'[Property Key]),
+    FILTER(ALL('Date'[Date]), 'Date'[Date] >= __START__ && 'Date'[Date] <= __END__),
+    "Sales", [Sales],
+    "SalesPerM2", [Sales per m2]
+)
+ORDER BY [Sales] DESC

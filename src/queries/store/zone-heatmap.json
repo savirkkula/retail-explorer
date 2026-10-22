@@ -1,0 +1,10 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v6.json",
+  "description": "Average visitors by weekday and hour in the store's zone",
+  "mark": "rect",
+  "encoding": {
+    "x": { "field": "Hour", "type": "ordinal", "title": "Hour" },
+    "y": { "field": "DayName", "type": "ordinal", "sort": { "field": "DayNumber", "op": "min" }, "title": null },
+    "color": { "field": "AvgVisitors", "type": "quantitative", "legend": { "orient": "bottom" } }
+  }
+}

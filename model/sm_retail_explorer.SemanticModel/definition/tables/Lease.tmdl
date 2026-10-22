@@ -1,0 +1,111 @@
+table Lease
+
+	measure 'Lease Years Remaining' = ```
+			VAR e = MAX ( 'Date'[Date] )
+			RETURN MAXX ( FILTER ( Lease, Lease[Start Date] <= e && Lease[End Date] > e ), DIVIDE ( DATEDIFF ( e, Lease[End Date], DAY ), 365.25 ) )
+			```
+		formatString: 0.0
+		displayFolder: Leases
+
+	measure 'Lease Expiry Date' = ```
+			VAR e = MAX ( 'Date'[Date] )
+			RETURN MAXX ( FILTER ( Lease, Lease[Start Date] <= e && Lease[End Date] > e ), Lease[End Date] )
+			```
+		formatString: yyyy-mm-dd
+		displayFolder: Leases
+
+	measure 'Active Tenant' = ```
+			VAR e = MAX ( 'Date'[Date] )
+			RETURN MAXX ( FILTER ( Lease, Lease[Start Date] <= e && Lease[End Date] > e ), RELATED ( Tenant[Tenant Name] ) )
+			```
+		formatString: @
+		displayFolder: Leases
+
+	measure 'Is Vacant' = ```
+			VAR e = MAX ( 'Date'[Date] )
+			RETURN IF ( COUNTROWS ( FILTER ( Lease, Lease[Start Date] <= e && Lease[End Date] > e ) ) = 0, 1, 0 )
+			```
+		formatString: 0
+		displayFolder: Leases
+
+	/// Rent-weighted average unexpired lease term in years at the end of the filtered period.
+	measure WAULT = ```
+			VAR e = MAX ( 'Date'[Date] )
+			VAR active = FILTER ( Lease, Lease[Start Date] <= e && Lease[End Date] > e )
+			RETURN DIVIDE ( SUMX ( active, Lease[Annual Base Rent EUR] * DATEDIFF ( e, Lease[End Date], DAY ) / 365.25 ), SUMX ( active, Lease[Annual Base Rent EUR] ) )
+			```
+		formatString: 0.0
+		displayFolder: Leases
+
+	measure 'Expiring 12m Area m2' = ```
+			VAR e = MAX ( 'Date'[Date] )
+			RETURN SUMX ( FILTER ( Lease, Lease[Start Date] <= e && Lease[End Date] > e && Lease[End Date] <= e + 365 ), Lease[Area m2] )
+			```
+		formatString: #,##0
+		displayFolder: Leases
+
+	column 'Lease Key'
+		dataType: int64
+		isHidden
+		summarizeBy: none
+		sourceColumn: lease_key
+
+	column 'Unit Key'
+		dataType: int64
+		isHidden
+		summarizeBy: none
+		sourceColumn: unit_key
+
+	column 'Tenant Key'
+		dataType: int64
+		isHidden
+		summarizeBy: none
+		sourceColumn: tenant_key
+
+	column 'Start Date'
+		dataType: dateTime
+		formatString: yyyy-mm-dd
+		summarizeBy: none
+		sourceColumn: start_date
+
+	column 'End Date'
+		dataType: dateTime
+		formatString: yyyy-mm-dd
+		summarizeBy: none
+		sourceColumn: end_date
+
+	column 'Base Rent Per m2 Month'
+		dataType: double
+		formatString: #,##0.0
+		summarizeBy: none
+		sourceColumn: base_rent_per_m2_month
+
+	column 'Turnover Rent Pct'
+		dataType: double
+		formatString: #,##0.0
+		summarizeBy: none
+		sourceColumn: turnover_rent_pct
+
+	column 'Service Charge Per m2 Month'
+		dataType: int64
+		summarizeBy: none
+		sourceColumn: service_charge_per_m2_month
+
+	column 'Area m2'
+		dataType: double
+		formatString: #,##0.0
+		summarizeBy: none
+		sourceColumn: area_m2
+
+	column 'Annual Base Rent EUR'
+		dataType: double
+		formatString: #,##0.0
+		summarizeBy: none
+		sourceColumn: annual_base_rent_eur
+
+	partition Lease = entity
+		mode: directLake
+		source
+			entityName: dim_lease
+			schemaName: dbo
+			expressionSource: DatabaseQuery

@@ -1,0 +1,14 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v6.json",
+  "description": "Monthly occupancy cost components",
+  "transform": [
+    { "fold": ["BaseRent", "TurnoverRent", "ServiceCharge"], "as": ["Component", "Amount"] },
+    { "calculate": "datum.Component === 'BaseRent' ? 'Base rent' : datum.Component === 'TurnoverRent' ? 'Turnover rent' : 'Service charge'", "as": "ComponentLabel" }
+  ],
+  "mark": "bar",
+  "encoding": {
+    "x": { "field": "MonthStart", "type": "temporal", "timeUnit": "yearmonth", "title": null },
+    "y": { "field": "Amount", "type": "quantitative", "aggregate": "sum", "title": null },
+    "color": { "field": "ComponentLabel", "type": "nominal", "legend": { "orient": "bottom", "title": null } }
+  }
+}

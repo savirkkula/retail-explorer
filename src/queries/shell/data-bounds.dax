@@ -1,0 +1,5 @@
+EVALUATE
+ROW(
+    "MinDateKey", MIN(Sales[Date Key]),
+    "MaxDateKey", MAX(Sales[Date Key])
+)

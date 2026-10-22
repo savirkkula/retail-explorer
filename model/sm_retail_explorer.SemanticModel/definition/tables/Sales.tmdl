@@ -1,0 +1,85 @@
+table Sales
+
+	measure Sales = SUM ( Sales[Sales EUR] )
+		formatString: #,##0
+		displayFolder: Sales
+
+	measure Transactions = SUM ( Sales[Transaction Count] )
+		formatString: #,##0
+		displayFolder: Sales
+
+	measure 'Sales PY' = CALCULATE ( [Sales], DATEADD ( 'Date'[Date], -1, YEAR ) )
+		formatString: #,##0
+		displayFolder: Sales
+
+	measure 'Sales YoY %' = DIVIDE ( [Sales] - [Sales PY], [Sales PY] )
+		formatString: +0.0%;-0.0%;0.0%
+		displayFolder: Sales
+
+	/// Annualised sales per occupied m2 over the filtered period.
+	measure 'Sales per m2' = DIVIDE ( [Sales], [Occupied Area] ) * 12
+		formatString: #,##0
+		displayFolder: Sales
+
+	measure 'Category Benchmark Density' = ```
+			VAR cat = SELECTEDVALUE ( Unit[Category] )
+			VAR pk = SELECTEDVALUE ( Unit[Property Key] )
+			RETURN IF ( NOT ISBLANK ( cat ), CALCULATE ( [Sales per m2], ALL ( Unit ), Unit[Category] = cat, Unit[Property Key] = pk ) )
+			```
+		formatString: #,##0
+		displayFolder: Health
+
+	measure 'Sales Index vs Category' = DIVIDE ( [Sales per m2], [Category Benchmark Density] )
+		formatString: 0.00
+		displayFolder: Health
+
+	/// 0-100 composite: 40% sales density vs category, 30% OCR, 15% YoY trend, 15% lease runway. Unit level.
+	measure 'Health Score' = ```
+			VAR idx = [Sales Index vs Category]
+			VAR ocr = [OCR]
+			VAR yoy = COALESCE ( [Sales YoY %], 0 )
+			VAR yrs = COALESCE ( [Lease Years Remaining], 0 )
+			VAR salesScore = MAX ( 0, MIN ( 100, 50 + 100 * ( idx - 1 ) ) )
+			VAR ocrScore = MAX ( 0, MIN ( 100, 100 * ( 0.2 - ocr ) / 0.12 ) )
+			VAR trendScore = MAX ( 0, MIN ( 100, 50 + 250 * yoy ) )
+			VAR leaseScore = MIN ( 100, yrs / 5 * 100 )
+			RETURN IF ( NOT ISBLANK ( idx ) && NOT ISBLANK ( ocr ), 0.4 * salesScore + 0.3 * ocrScore + 0.15 * trendScore + 0.15 * leaseScore )
+			```
+		formatString: 0
+		displayFolder: Health
+
+	column 'Date Key'
+		dataType: int64
+		isHidden
+		summarizeBy: none
+		sourceColumn: date_key
+
+	column 'Unit Key'
+		dataType: int64
+		isHidden
+		summarizeBy: none
+		sourceColumn: unit_key
+
+	column 'Tenant Key'
+		dataType: int64
+		isHidden
+		summarizeBy: none
+		sourceColumn: tenant_key
+
+	column 'Sales EUR'
+		dataType: double
+		formatString: #,##0.0
+		summarizeBy: none
+		sourceColumn: sales_eur
+
+	column 'Transaction Count'
+		dataType: int64
+		summarizeBy: none
+		sourceColumn: transactions
+
+	partition Sales = entity
+		mode: directLake
+		source
+			entityName: fact_sales_daily
+			schemaName: dbo
+			expressionSource: DatabaseQuery

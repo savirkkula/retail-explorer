@@ -1,0 +1,50 @@
+table Footfall
+
+	measure Visitors = SUM ( Footfall[Visitor Count] )
+		formatString: #,##0
+		displayFolder: Footfall
+
+	measure 'Visitors PY' = CALCULATE ( [Visitors], DATEADD ( 'Date'[Date], -1, YEAR ) )
+		formatString: #,##0
+		displayFolder: Footfall
+
+	measure 'Visitors YoY %' = DIVIDE ( [Visitors] - [Visitors PY], [Visitors PY] )
+		formatString: +0.0%;-0.0%;0.0%
+		displayFolder: Footfall
+
+	measure 'Zone Visitors' = CALCULATE ( [Visitors], TREATAS ( VALUES ( Unit[Zone Key] ), Zone[Zone Key] ) )
+		formatString: #,##0
+		displayFolder: Footfall
+
+	measure 'Sales per Passing Visitor' = DIVIDE ( [Sales], [Zone Visitors] )
+		formatString: 0.00
+		displayFolder: Footfall
+
+	column 'Date Key'
+		dataType: int64
+		isHidden
+		summarizeBy: none
+		sourceColumn: date_key
+
+	column 'Zone Key'
+		dataType: int64
+		isHidden
+		summarizeBy: none
+		sourceColumn: zone_key
+
+	column Hour
+		dataType: int64
+		summarizeBy: none
+		sourceColumn: hour
+
+	column 'Visitor Count'
+		dataType: int64
+		summarizeBy: none
+		sourceColumn: visitors
+
+	partition Footfall = entity
+		mode: directLake
+		source
+			entityName: fact_footfall_hourly
+			schemaName: dbo
+			expressionSource: DatabaseQuery
